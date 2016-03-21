@@ -1,7 +1,7 @@
 function y = se3_exp(x)
 
 omega = x(1:3);
-u = x(4:6)';
+u = x(4:6);
 
 theta = norm(omega);
 if abs(theta) < 1e-10
