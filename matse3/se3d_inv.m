@@ -1,4 +1,6 @@
 % inverse of the distribution
+%
+% Emanuele Ruffaldi 2015
 function y=se3d_inv(a)
 
 [ga,ca] = se3d_get(a); % extract 

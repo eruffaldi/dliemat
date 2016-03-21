@@ -1,3 +1,6 @@
+%
+% Computes the Adjoint
+%
 function y = se3_adj(x)
 
 R = x(1:3,1:3);

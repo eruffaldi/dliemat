@@ -1,4 +1,5 @@
-% simply inverse 
+% Inverse of the group
+%
 function y = se3_inv(x)
 
 R = x(1:3,1:3);

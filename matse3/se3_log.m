@@ -1,3 +1,8 @@
+%
+% Logarithm of the group: the algebra
+%
+% Emanuele Ruffaldi 2016
+%
 function y = se3_log(x)
 
 R = x(1:3,1:3);

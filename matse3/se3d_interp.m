@@ -1,5 +1,7 @@
 % interpolate 
 % equivalent to slerp in pure quaternions
+%
+% Emanuele Ruffaldi 2016
 function y = se3d_interp(d1,d2,alpha)
 
 [x1,S1] = se3d_get(d1);

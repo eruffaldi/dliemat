@@ -1,3 +1,6 @@
+%
+% Exponential from algebra to group
+%
 function y = se3_exp(x)
 
 omega = x(1:3);
@@ -21,7 +24,7 @@ V = eye(3) + B*S + C*S^2;
 
 y = eye(4);
 y(1:3,1:3) = R;
-y(1:3,4) = V*u;            
+y(1:3,4) = V*u(:);            
 
 function S = skew(v)
 S = [  0   -v(3)  v(2)

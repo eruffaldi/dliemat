@@ -6,7 +6,7 @@
 % Emanuele Ruffaldi 2015
 classdef se3d
     properties
-        x %compacted as for the purefx se3d_*
+        x %compacted as for the matse3 se3d_*
     end
     
     methods
@@ -66,7 +66,7 @@ classdef se3d
             d = se3_dist(se3d_mean(this.x),se3d_mean(other.x));
         end
 
-        % plus means fusion
+        % -x = inverse
         function this = uminus(this,other)
             this.x = se3d_inv(this.x);
         end

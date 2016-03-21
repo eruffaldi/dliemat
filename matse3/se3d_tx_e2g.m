@@ -2,6 +2,8 @@
 %
 % input is covariance m,S in K dimensional space
 % output is SE3 Gaussian
+%
+% Emanuele Ruffaldi SSSA 2015-2016
 function [yd,xyS] = se3d_tx_e2g(m,S,f,sparams)
 
 % TODO compute sigma points for m,S

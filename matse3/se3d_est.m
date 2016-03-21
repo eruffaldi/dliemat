@@ -1,4 +1,7 @@
-% estimate statistics from data
+% estimate statistics from data: X -> SE3 dist
+%
+%
+% Emanuele Ruffaldi 2016
 function y = se3d_est(x,steps)
 
 N = size(x,3);

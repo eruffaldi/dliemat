@@ -1,3 +1,6 @@
+%
+% Builds the se3 from the adjoint
+%
 function y = se3_iadj(x)
 
 R = x(1:3,1:3);

@@ -1,3 +1,6 @@
+%
+% Fuses two Gaussians
+%
 function y = se3d_fuse(a,b)
 
 [R0,S0] = se3d_get(a);

@@ -1,3 +1,7 @@
+%
+% Samples the gaussian in SE3 for n points
+%
+% Emanuele Ruffaldi 2015-2015
 function y = se3d_sample(x,n)
 
 [x,S] = se3d_get(x);

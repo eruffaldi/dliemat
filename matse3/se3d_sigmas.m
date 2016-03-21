@@ -9,7 +9,9 @@
 % Output:
 % xp are the 2N+1 by sizeof[group] sigmapoints, with N=6 and sizeof[group]=4,4
 % v  are the increments
-% wei are the weights as of ut_mweights
+% wi are the weights as of ut_mweights
+%
+% Emanuele Ruffaldi SSSA 2015-2016
 
 function [xp,v,wei] = se3d_sigmas(d,params)
 
