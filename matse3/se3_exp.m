@@ -6,20 +6,30 @@ function y = se3_exp(x)
 omega = x(1:3);
 u = x(4:6);
 
+% first log of R
+%simplify(taylor(sin(x)/x,x,0,'Order',6))
+%       x^4/120 - x^2/6 + 1
+%simplify(taylor((1-cos(x))/x/x,x,0,'Order',6))
+%       x^4/720 - x^2/24 + 1/2
+%simplify(taylor((1-sin(x)/x)/x/x,x,0,'Order',6))
+%       x^4/5040 - x^2/120 + 1/6
 theta = norm(omega);
 if abs(theta) < 1e-10
     A = 1;
     B = 0.5;
     C = 1/6;
+    S = zeros(3);
+    R = eye(3) + A*S + B*S^2;
 else
-    A = sinc(theta);
+    A = sin(theta)/theta;
     B = (1-cos(theta))/(theta^2);
-    C = (1-A)/(theta^2);
+    C = (theta-sin(theta))/(theta^3);
+    S = skew(omega);
+    R = eye(3) + A*S + B*S^2;
+    % TROUBLE IF NOT UNITARY
 end
 
-S = skew(omega);
             
-R = eye(3) + A*S + B*S^2;
 V = eye(3) + B*S + C*S^2;
 
 y = eye(4);
