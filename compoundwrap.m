@@ -12,7 +12,7 @@ S = flipcov(S);
 
 % barfoot14 covariance scheme is based on translation+rotation 
 % our covariance scheme is rotation+
-function C = flipcov(S)
+function S = flipcov(S)
 
 P = [0 0 0 1 0 0; 0 0 0 0 1 0; 0 0 0 0 0 1; 1 0 0 0 0 0; 0 1 0 0 0 0; 0 0 1 0 0 0];
-C = P*S*P;
+S = P*S*P;

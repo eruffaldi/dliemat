@@ -22,14 +22,18 @@ S2p = A*cb*A';
 
 if order == 4
     
+    caf = flipcov(ca);
+    S2pf = flipcov(S2p);
+
    % Fourth-order method from barfoot
-   Sigma1rr = ca(1:3,1:3);
-   Sigma1rp = ca(1:3,4:6);
-   Sigma1pp = ca(4:6,4:6);
+   % TODO: fix order
+   Sigma1rr = caf(1:3,1:3);
+   Sigma1rp = caf(1:3,4:6);
+   Sigma1pp = caf(4:6,4:6);
    
-   Sigma2rr = S2p(1:3,1:3);
-   Sigma2rp = S2p(1:3,4:6);
-   Sigma2pp = S2p(4:6,4:6);
+   Sigma2rr = S2pf(1:3,1:3);
+   Sigma2rp = S2pf(1:3,4:6);
+   Sigma2pp = S2pf(4:6,4:6);
    
    A1 = [covop1(Sigma1pp) covop1(Sigma1rp+Sigma1rp'); zeros(3) covop1(Sigma1pp) ];
    A2 = [covop1(Sigma2pp) covop1(Sigma2rp+Sigma2rp'); zeros(3) covop1(Sigma2pp) ];
@@ -39,7 +43,7 @@ if order == 4
    Bpp = covop2(Sigma1pp,Sigma2pp);
    B = [Brr Brp; Brp' Bpp];
    
-   S = ca + S2p + (A1*S2p + S2p*A1' + A2*ca + ca*A2')/12 + B/4;
+   S = ca + S2p + flipcov((A1*S2pf + S2pf*A1' + A2*caf + caf*A2')/12 + B/4);
 
 else
    S = ca + S2p;
@@ -61,6 +65,11 @@ function A = covop2( B, C )
 
 
 A = covop1(B)*covop1(C) + covop1(C*B);
+
+function S = flipcov(S)
+
+P = [0 0 0 1 0 0; 0 0 0 0 1 0; 0 0 0 0 0 1; 1 0 0 0 0 0; 0 1 0 0 0 0; 0 0 1 0 0 0];
+S = P*S*P;
 
 
 
