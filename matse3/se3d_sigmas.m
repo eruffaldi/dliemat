@@ -24,7 +24,7 @@ end
 
 [g,S] = se3d_get(d);
 
-wei = ut_mweights(n,params.alpha,params.beta,params.kappa);
+wei = ut_mweights2(n,params.alpha,params.beta,params.kappa);
 c = wei.WC;
 
 C = chol(S); % TODO customize this function because is delicate

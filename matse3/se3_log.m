@@ -25,7 +25,14 @@ else
     B = (1-cos(theta))/(theta*theta);
     SO = (1/(2*A))*(R-R');  % =skew(omega)
     %??
-    iV = eye(3) - 1/2*SO + 1/(theta^2)*(1 - A/2/B)*SO^2; % use directly skew of omega
+    % syms x real
+    % A = sin(x)/x
+    % B= (1-cos(x))/(x*x)
+    % Q=1/(x*x)*(1 - A/2/B)
+    % taylor(Q,x,0)
+    %       x^4/30240 + x^2/720 + 1/12
+    Q= 1/(theta^2)*(1 - A/2/B);
+    iV = eye(3) - 1/2*SO + Q*SO^2; % use directly skew of omega
 end
 
 omega = [SO(3,2) SO(1,3) SO(2,1)];

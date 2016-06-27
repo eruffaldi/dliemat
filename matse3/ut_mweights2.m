@@ -5,7 +5,16 @@
 % Copyright (C) 2006 Simo Sarkka
 %
 % Modified Emanele Ruffaldi 2014
-function [wei] = ut_weights(n,alpha,beta,kappa)
+function [wei] = ut_weights2(n,alpha,beta,kappa)
+if nargin < 2
+    alpha = 0.5;
+end
+if nargin < 3
+    beta = 2;
+end
+if nargin < 4
+    kappa = 3-n;
+end
 
 lambda = alpha^2*(kappa+n)-n;
 

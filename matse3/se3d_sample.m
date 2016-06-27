@@ -5,10 +5,12 @@
 function y = se3d_sample(x,n)
 
 [x,S] = se3d_get(x);
-cS = chol(S);
+ccS = cholcov(S);
+cS = ccS'*ccS;
 
 y = zeros(4,4,n);
-
+Q = randn(6,n);
 for i=1:n
-	y(4,4,i) = se3_exp(randn(6,6)*cS)*x;
+    y(:,:,i) = se3_exp(cS*Q(:,i))*x;
 end
+    
