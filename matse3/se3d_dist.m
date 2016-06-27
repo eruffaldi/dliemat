@@ -2,10 +2,13 @@
 %
 %
 % Emanuele Ruffaldi 2016
-function [d,S] = se3d_dist(a,b)
+function [d,S] = se3d_dist(a,b,order)
 
-ab = se3d_mul(sed3d_inv(a),b)
+if nargin == 2
+    order = 2;
+end
+ab = se3d_mul(sed3d_inv(a),b,2)
 
-mu_ab = se3d_mean(ab)
-S = se3d_cov(ab)
-d = se3_log(mu_ab)
+mu_ab = se3d_mean(ab);
+S = se3d_cov(ab);
+d = se3_log(mu_ab);
