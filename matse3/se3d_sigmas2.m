@@ -37,23 +37,23 @@ c = wei.WC;
 
 
 % first compute the sigma points stored ad 4x4 in this implementation
-xp = zeros(2*k+1,4,4,2);
-xp(1,:,:,1) = g1; % not weighted
-xp(1,:,:,2) = g2; % not weighted
+xp = zeros(4,4,2,2*k+1);
+xp(:,:,1,1) = g1; % not weighted
+xp(:,:,2,1) = g2; % not weighted
 % for covariance
 v = zeros(2*k+1,12,1);
 for I=1:k
-    psi = c(I)*C(I,:); % dimension 
+    psi = c(I+1)*C(I,:); % dimension 
 	psi1 = psi(1:6);
     psi2 = psi(7:12);
 	
-    v(I+1,:) = psi;
-    v(I+1+k,:) = -psi;
+    v(:,I+1) = psi;
+    v(:,I+1+k) = -psi;
     
-    xp(I+1,:,:,1) = se3_mul(se3_exp(psi1),g1); % weighted local motion
-	xp(I+1+k,:,:,1) = se3_mul(-se3_exp(psi1),g1); % weighred local motion
-	xp(I+1,:,:,2) = se3_mul(se3_exp(psi2),g2); % weighted local motion
-	xp(I+1+k,:,:,2) = se3_mul(-se3_exp(psi2),g2); % weighred local motion
+    xp(:,:,1,I+1) = se3_mul(se3_exp(psi1),g1); % weighted local motion
+	xp(:,:,1,I+1+k) = se3_mul(se3_exp(-psi1),g1); % weighred local motion
+	xp(:,:,2,I+1) = se3_mul(se3_exp(psi2),g2); % weighted local motion
+	xp(:,:,2,I+1+k) = se3_mul(se3_exp(-psi2),g2); % weighred local motion
 end
 
 % Linear form

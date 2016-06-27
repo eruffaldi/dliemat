@@ -24,14 +24,16 @@ function [xp,v,wei] = se3d_sigmas(d,params)
 
 n = 6; % dimensionality of the problem
 
-if nargin == 1 || isempty(params)
-	params = struct('alpha',0.5,'beta',2,'kappa',3-n);
-end
 
 [g,S] = se3d_get(d);
 
 C = cholcov(S); % 6x6 -> 
 k = size(C,1);
+
+if nargin == 1 || isempty(params)
+	params = struct('alpha',0.5,'beta',2,'kappa',3-k);
+end
+
 wei = ut_mweights2(n,k,params.alpha,params.beta,params.kappa);
 
 % if k < n
@@ -41,18 +43,18 @@ wei = ut_mweights2(n,k,params.alpha,params.beta,params.kappa);
 %     wei.W = wei.W(1:m,1:m);
 % end
 
-c = wei.WC;
+c = wei.c;
 
 % first compute the sigma points stored ad 4x4 in this implementation
 xp = zeros(4,4,2*k+1);
 xp(:,:,1) = g; % not weighted
 v = zeros(6,2*k+1);
 for I=1:k
-    psi = c(I)*C(I,:);
+    psi = c*C(I,:);
     v(:,I+1) = psi;
     v(:,I+1+k) = -psi;
-	xp(:,:,I+1) = se3_mul(se3_exp(psi),g); % weighted local motion
-	xp(:,:,I+1+k) = se3_mul(-se3_exp(psi),g); % weighred local motion
+	xp(:,:,I+1) = se3_exp(psi)*g; % weighted local motion
+	xp(:,:,I+1+k) = se3_exp(-psi)*g; % weighred local motion
 end
 
 % Linear form

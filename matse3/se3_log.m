@@ -36,11 +36,10 @@ else
     %simplify(taylor((1-sin(x)/x)/x/x,x,0,'Order',6))
     %       x^4/5040 - x^2/120 + 1/6
     theta = acos((trace(R)-1)/2); %acos(max(-1,min((trace(R)-1)/2,1)));
-    assert(isreal(theta),'thetareal');
-    %CtC = C'*C;
-    %E = CtC - eye(3);
-    %err = max(abs(E)); % > 1e-10 error
-
+    if isreal(theta) == 0
+        R = R/abs(det(R));
+        theta =  acos((trace(R)-1)/2);
+    end
 
     if abs(theta) < 1e-10
         B = 0.5;
