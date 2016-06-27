@@ -10,27 +10,28 @@
 % wei is the weight structure used for computing the weights
 function [y,Sxy] = se3d_unsigmas(yp,w,gx,wei)
 
-N = size(x,3);
-gk = (:,:,1);
-Sk = zeros(6,6);
-v = zeros(N,6);
-w = zeros(N,6);
+N = size(yp,3);
+gk = squeeze(yp(:,:,1)); 
+v = zeros(6,N);
 
+steps = 10;
+
+% estimate mean but weighted
 for k=1:steps
 	igk = se3_inv(gk);
 	for i=1:N
 		% same as: se3_logdelta but with igk once
-		v(i,:) = se3_log(se3_mul(yp(:,:,i)*igk)); 
+		v(:,i) = se3_log(squeeze(yp(:,:,i))*igk); 
 	end
-	ma = v*wei.Wm;	
+	ma = v*wei.WM	% 6 (2k+1)  (2k+1) 1
 	gk = se3_exp(ma)*gk;
 end
 
 % last run for the Sk
-igk = se3_inv(gk);
+igk = se3_inv(gk)
 %imux = se3_inv(se3d_mean(gx));
 for i=1:N
-	v(i,:) = se3_log(se3_mul(yp(:,:,i)*igk)); 
+	v(:,i) = se3_log(squeeze(yp(:,:,i))*igk); 
 	%w(i,:) = se3_log(se3_mul(xp(:,:,i)*imux)); 
 end
 Sk = v*wei.W*v';

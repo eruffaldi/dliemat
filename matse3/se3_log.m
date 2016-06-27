@@ -15,7 +15,9 @@ t = x(1:3,4);
 %       x^4/720 - x^2/24 + 1/2
 %simplify(taylor((1-sin(x)/x)/x/x,x,0,'Order',6))
 %       x^4/5040 - x^2/120 + 1/6
-theta = acos((trace(R)-1)/2);
+theta = acos(max(-1,min((trace(R)-1)/2,1)));
+assert(isreal(theta),'thetareal');
+
 if abs(theta) < 1e-10
     B = 0.5;
     SO = (1/(2))*(R-R');  % =skew(omega)

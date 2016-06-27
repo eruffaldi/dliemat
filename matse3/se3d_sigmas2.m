@@ -28,30 +28,32 @@ end
 [g1,S1] = se3d_get(d1);
 [g2,S2] = se3d_get(d2);
 
-wei = ut_mweights2(n,params.alpha,params.beta,params.kappa);
-c = wei.WC;
-
 S = blkdiag(S1,S2);
 C = cholcov2(S); % 12x12 -> 6x6
+k = size(C,1);
+
+wei = ut_mweights2(n,k,params.alpha,params.beta,params.kappa);
+c = wei.WC;
+
 
 % first compute the sigma points stored ad 4x4 in this implementation
-xp = zeros(2*n+1,4,4,2);
+xp = zeros(2*k+1,4,4,2);
 xp(1,:,:,1) = g1; % not weighted
 xp(1,:,:,2) = g2; % not weighted
 % for covariance
-v = zeros(2*n+1,12,1);
-for I=1:n
-    psi = c(I)*C(:,I); % dimension 
+v = zeros(2*k+1,12,1);
+for I=1:k
+    psi = c(I)*C(I,:); % dimension 
 	psi1 = psi(1:6);
     psi2 = psi(7:12);
 	
     v(I+1,:) = psi;
-    v(I+1+n,:) = -psi;
+    v(I+1+k,:) = -psi;
     
     xp(I+1,:,:,1) = se3_mul(se3_exp(psi1),g1); % weighted local motion
-	xp(I+1+n,:,:,1) = se3_mul(-se3_exp(psi1),g1); % weighred local motion
+	xp(I+1+k,:,:,1) = se3_mul(-se3_exp(psi1),g1); % weighred local motion
 	xp(I+1,:,:,2) = se3_mul(se3_exp(psi2),g2); % weighted local motion
-	xp(I+1+n,:,:,2) = se3_mul(-se3_exp(psi2),g2); % weighred local motion
+	xp(I+1+k,:,:,2) = se3_mul(-se3_exp(psi2),g2); % weighred local motion
 end
 
 % Linear form
