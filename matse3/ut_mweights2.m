@@ -16,6 +16,13 @@ if nargin < 4
     kappa = 3-n;
 end
 
+% mean: lambda/(k+lambda)
+% others: 1/(2*(k+lambda))
+%
+% 2*k / (2*(k+lambda)) + lambda /(k+lambda)
+% (k / (k+lambda) + lambda/ (k+lambda))
+% (k+lambda) / (k+lambda) == 1
+
 lambda = alpha^2*(kappa+n)-n;
 
 WM = repmat(1/(2*(k+lambda)), 2*k+1,1); % except first
