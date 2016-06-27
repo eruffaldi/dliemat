@@ -43,7 +43,7 @@ xp(:,:,2,1) = g2; % not weighted
 % for covariance
 v = zeros(2*k+1,12,1);
 for I=1:k
-    psi = c(I+1)*C(I,:); % dimension 
+    psi = wei.c*C(I,:); % dimension 
 	psi1 = psi(1:6);
     psi2 = psi(7:12);
 	
