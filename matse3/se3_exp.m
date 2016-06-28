@@ -3,8 +3,8 @@
 %
 function y = se3_exp(x)
 
-omega = x(1:3);
-u = x(4:6);
+u = x(1:3);
+omega = x(4:6);
 
 
 % first log of R

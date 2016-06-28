@@ -1,14 +1,20 @@
 %
-% Fuses N Gaussians
+% Fuses N Gaussians using BarFoot14
 %
-% http://rpk.lcsr.jhu.edu/wp-content/uploads/2015/01/Wolfe11_Bayesian-Fusion-on-Lie-Groups.pdf
+% Parameters:
+% x is the array of SE(3) distributions stacked by row
+% steps is the number of iterations in the Gauss-Newton
+% terms is the number of terms for the resolution of the inverse
+% gk is the starting point
+%
+% Returns:
+% 
 %
 function [y,V] = se3d_nfuse(x,steps,terms,gk)
 
-%[R0,S0] = se3d_get(a);
-%Sy = S0 - S0/(S0 + S1)*S0;
-%v = se3_log(R1*se3_inv(R0));
-%Ry = se3_exp(Sy/S1*v)*R0; 
+if nargin < 4
+    gk = T{1};
+end
 
 N = size(x,2);
 invSigma = cell(N,1);
@@ -16,7 +22,7 @@ Sigma = cell(N,1);
 cholSigma = cell(N,1);
 T=cell(N,1);
 
-% expand it
+% expand each in cella rrays
 for k=1:N
     [R0,S0] = se3d_get(x(:,k));
     T{k} = R0;
@@ -25,9 +31,6 @@ for k=1:N
     cholSigma{k} = chol( S0, 'lower' );
 end
 
-if nargin < 4
-    gk = T{1};
-end
 
 
 % for i=1:N
@@ -44,42 +47,42 @@ end
 %elements on the left-hand side of these equations. If this minimization reaches a value of
 %zero, we consider the constraints to have been solved.
 
-       Test = gk;
-       for i=1:steps      % Gauss-Newton iterations
-          LHS = zeros(6);
-          RHS = zeros(6,1);
-          for k=1:N
-             xik = se3_log( Test/T{k} );
-             if terms <= 6
-                invJ = vec2jacInvSeries( xik, terms );
-             else
-                invJ = vec2jacInv( xik );
-             end
-             invJtS = invJ'*invSigma{k};
-             LHS = LHS + invJtS*invJ;
-             RHS = RHS + invJtS*xik;
-          end
-          xi = -LHS \ RHS;
-         assert(abs(det(Test(1:3,1:3))-1.0) < 1e-5,'a');
-          Test = se3_exp( xi )*Test;
-         assert(abs(det(Test(1:3,1:3))-1.0) < 1e-5,'b');
-       end
+   Test = gk;
+   for i=1:steps      % Gauss-Newton iterations
+      LHS = zeros(6);
+      RHS = zeros(6,1);
+      for k=1:N
+         xik = se3_log( Test/T{k} );
+         if terms <= 6
+            invJ = vec2jacInvSeries( xik, terms );
+         else
+            invJ = vec2jacInv( xik );
+         end
+         invJtS = invJ'*invSigma{k};
+         LHS = LHS + invJtS*invJ;
+         RHS = RHS + invJtS*xik;
+      end
+      xi = -LHS \ RHS;
+      assert(abs(det(Test(1:3,1:3))-1.0) < 1e-5,'a');
+      Test = se3_exp( xi )*Test;
+      assert(abs(det(Test(1:3,1:3))-1.0) < 1e-5,'b');
+   end
 
-       % How low did the objective function get?
-       V = 0;
-       for k=1:N
-          xik = se3_log( Test*inv(T{k}) );
-          V = V + xik'*invSigma{k}*xik/2;
-       end
+   % How low did the objective function get?
+   V = 0;
+   for k=1:N
+      xik = se3_log( Test*inv(T{k}) );
+      V = V + xik'*invSigma{k}*xik/2;
+   end
 
-       % How close is the estimate to the true pose?
-       %xi = se3_log( Ttrue*inv(Test) );
-       %ep(n) = ep(n) + xi'*xi;
+   % How close is the estimate to the true pose? NOT NEEDED
+   %xi = se3_log( Ttrue*inv(Test) );
+   %ep(n) = ep(n) + xi'*xi;
 
-       % How big is the covariance?
-       Sigma_est = inv(LHS);
-       %trcov(n) = trcov(n) + trace(Sigma_est'*Sigma_est);
-y = se3d_set(Test,Sigma_est);
+   % How big is the covariance? NOT
+   Sigma_est = inv(LHS);
+   %trcov(n) = trcov(n) + trace(Sigma_est'*Sigma_est);
+   y = se3d_set(Test,Sigma_est);
 
 end
 

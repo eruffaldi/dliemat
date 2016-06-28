@@ -67,7 +67,7 @@ else
 end
 
 u = iV*t;
-y = [omega(:);u(:)];
+y = [u(:);omega(:)];
 
 
 function invJ =vec2jacInv(phi)

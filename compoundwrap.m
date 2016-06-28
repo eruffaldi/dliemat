@@ -6,9 +6,14 @@ else
     order = 4;
 end
 
+% TODO: 
+
 % inconvert the incoming covariance to our format and then convertback
-[T,S] = se3d_get(se3d_mul(se3d_set(t1,flipcov(s1)),se3d_set(t2,flipcov(s2)),order));
-S = flipcov(S);
+%[T,S] = se3d_get(se3d_mul(se3d_set(t1,flipcov(s1)),se3d_set(t2,flipcov(s2)),order));
+%S = flipcov(S);
+
+% modified => not needed
+[T,S] = se3d_get(se3d_mul(se3d_set(t1,(s1)),se3d_set(t2,(s2)),order));
 
 % barfoot14 covariance scheme is based on translation+rotation 
 % our covariance scheme is rotation+

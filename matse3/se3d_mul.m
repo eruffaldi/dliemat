@@ -22,8 +22,8 @@ S2p = A*cb*A';
 
 if order == 4
     
-    caf = flipcov(ca);
-    S2pf = flipcov(S2p);
+    caf = ca; %flipcov(ca);
+    S2pf = S2p; %flipcov(S2p);
 
    % Fourth-order method from barfoot
    % TODO: fix order
@@ -43,7 +43,7 @@ if order == 4
    Bpp = covop2(Sigma1pp,Sigma2pp);
    B = [Brr Brp; Brp' Bpp];
    
-   S = ca + S2p + flipcov((A1*S2pf + S2pf*A1' + A2*caf + caf*A2')/12 + B/4);
+   S = ca + S2p + ((A1*S2pf + S2pf*A1' + A2*caf + caf*A2')/12 + B/4);
 
 else
    S = ca + S2p;

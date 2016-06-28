@@ -6,7 +6,7 @@ qn = norm(r);
 S = zeros(6);
 if qn > 0
     a = abs(r)./norm(r); % FIX ME
-    S(1:3,1:3) = avar*diag(a);
+    S(4:6,4:6) = avar*diag(a);
 end
 y = se3d_set(T,S);
 

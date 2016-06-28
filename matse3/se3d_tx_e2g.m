@@ -11,7 +11,7 @@ function [yd,xyS] = se3d_tx_e2g(m,S,f,sparams)
 % evaluate
 yp = zeros(size(xp,1),4,4);
 for I=1:size(xp,1)
-	yp(I,:,:) = f(xp(I,:)));
+	yp(I,:,:) = f(xp(I,:));
 end
 
 [yd,xyS] = se3d_unsigmas(yp,X,wei);
