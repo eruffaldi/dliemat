@@ -1,0 +1,17 @@
+
+For the rotation R we can find the rotation axis as the eigenvector R a = a. That is the only axis 
+for which the Rotation has no effects. The rotation can be then replaced by the vector (exponential) that can be 
+generally expressed as f(theta)*an with an unitary. Typically f(theta)=theta while Tsai proposes 2sin(theta/2). Note that
+with this last form we are simply using the double the xyz part of the unitary Quaternion.
+
+The choice of f(theta) can affect the numerical stability of the operations and their use.
+
+First let's see which are the operation in the parametric space and then the changes needed by non-standard f(theta):
+
+- exp(p) known. Tsai form does not require trig
+- log(R) one option is the quaternion version
+- slerp: in the slerp we have exp(alpha*log)   UNKNOWN
+- mean and variance estimation UNKNOWN
+- covariance to sigma points
+- sampling with zero mean
+- distance measures

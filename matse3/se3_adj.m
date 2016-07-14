@@ -8,7 +8,7 @@ t = x(1:3,4);
 % SKEW for [t,omega] y = [R skew(t)*R; zeros(3) R];
 % SKEW for [omega,t] y = [R zeros(3);skew(t)*R R];
 
-y = [R skew(t)*R; zeros(3) R]
+y = [R skew(t)*R; zeros(3) R];
 
 
 function S = skew(v)

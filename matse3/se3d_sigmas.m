@@ -49,13 +49,15 @@ c = wei.c;
 xp = zeros(4,4,2*k+1);
 xp(:,:,1) = g; % not weighted
 v = zeros(6,2*k+1);
+se3_exp = @vec2tran;
 for I=1:k
-    psi = c*C(I,:);
+    psi = c*C(I,:)';
     v(:,I+1) = psi;
     v(:,I+1+k) = -psi;
 	xp(:,:,I+1) = se3_exp(psi)*g; % weighted local motion
 	xp(:,:,I+1+k) = se3_exp(-psi)*g; % weighred local motion
 end
+v = v';
 
 % Linear form
 %X(1,:) = mu(:)';

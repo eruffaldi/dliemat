@@ -7,7 +7,7 @@ function [d,S] = se3d_dist(a,b,order)
 if nargin == 2
     order = 2;
 end
-ab = se3d_mul(sed3d_inv(a),b,2)
+ab = se3d_mul(sed3d_inv(a),b,order);
 
 mu_ab = se3d_mean(ab);
 S = se3d_cov(ab);
