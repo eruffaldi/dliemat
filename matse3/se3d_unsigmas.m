@@ -32,7 +32,7 @@ igk = se3_inv(gk);
 %imux = se3_inv(se3d_mean(gx));
 for i=1:N
 	v(:,i) = se3_log(squeeze(yp(:,:,i))*igk); 
-	%w(i,:) = se3_log(xp(:,:,i)*inv(gx)));  % use from input
+	%w(i,:) = se3_log(xp(:,:,i)*inv(gx));  % use from input
 end
 Sk = v*wei.W*v; % covariance
 y = se3d_set(gk,Sk);
@@ -41,6 +41,7 @@ if nargout > 1
     Sxy = w*wei.W*v; % cross XY
 end
 
+% Linear Form
 % Non Matricial Form
 % mu = mu + WM(i) * Y(:,i);
 % S = S + WC(i) * (Y(:,i) - mu) * (Y(:,i) - mu)';
